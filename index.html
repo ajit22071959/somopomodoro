@@ -222,7 +222,8 @@ function complete(){
  let longDue=false;
  if(ended==='focus'){completed++;cycleCompleted++;longDue=cycleCompleted>=settings.sessionsBeforeLong;if(longDue)cycleCompleted=0;}
  setMode(ended==='focus'?(longDue?'long':'short'):'focus');
- playAlarm(ended);notify(ended);
+ try{notify(ended);}catch(err){console.warn('notify failed',err);}
+ try{playAlarm(ended);}catch(err){console.warn('alarm failed',err);}
  announce(ended==='focus'?`Focus complete. Well done! Your ${names[mode].toLowerCase()} is ready. Press Start when you’re ready.`:'Break complete. Your next focus session is ready.');
 }
 function tick(){if(!running)return;remaining=Math.max(0,deadline-Date.now());if(remaining<=0)complete();else render();}
