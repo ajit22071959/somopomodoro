@@ -183,20 +183,28 @@ async function requestNotifications(){
 }
 let swReg=null;
 if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.register('sw.js').then(r=>{swReg=r;}).catch(err=>console.warn('Service worker registration failed',err));}
-async function showNote(title,body){
- const opts={body,tag:'still-timer-'+Date.now(),requireInteraction:true,renotify:false};
- try{const note=new Notification(title,opts);note.onclick=()=>{window.focus();note.close();};return true;}
- catch(err){
-  try{const reg=swReg||(navigator.serviceWorker&&await navigator.serviceWorker.ready);if(reg){await reg.showNotification(title,opts);return true;}}
-  catch(err2){console.warn('Notification failed',err,err2);}
- }
+async function showNote(title,body,actions){
+ const opts={body,tag:'still-timer-'+Date.now(),requireInteraction:true,data:{url:location.href}};
+ if(actions)opts.actions=actions;
+ try{
+  const reg=swReg||(('serviceWorker' in navigator)&&await Promise.race([navigator.serviceWorker.ready,new Promise(r=>setTimeout(()=>r(null),1500))]));
+  if(reg&&reg.showNotification){await reg.showNotification(title,opts);return true;}
+ }catch(err){console.warn('Service worker notification failed',err);}
+ try{delete opts.actions;const note=new Notification(title,opts);note.onclick=()=>{window.focus();stopAlarm(true);note.close();};return true;}
+ catch(err){console.warn('Notification failed',err);}
  const el=$('notifStatus');if(el){el.textContent='Your browser refused to show the notification.';el.className='notif-status bad';}
  return false;
 }
 function notify(ended){
  if(!settings.notifications||!notifSupported||Notification.permission!=='granted')return;
- showNote(ended==='focus'?'Focus complete. Nicely done.':'Break complete. Ready for a fresh start?',ended==='focus'?`${names[mode]} is ready when you are.`:'Your next focus session is ready.');
+ const startLabel=mode==='focus'?'Start Focus':'Start Break';
+ showNote(ended==='focus'?'Focus complete. Nicely done.':'Break complete. Ready for a fresh start?',ended==='focus'?`${names[mode]} is ready when you are.`:'Your next focus session is ready.',[{action:'stop',title:'Stop alarm'},{action:'start',title:startLabel}]);
 }
+if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('message',event=>{
+ const action=event.data&&event.data.stillAction;if(!action)return;
+ if(action==='stop'||action==='open'){stopAlarm(true);}
+ else if(action==='start'){stopAlarm(true);if(!running)startPause();}
+});}
 function nextMode(){return mode==='focus'?(cycleCompleted+1>=settings.sessionsBeforeLong?'long':'short'):'focus';}
 function render(){
  const seconds=Math.max(0,Math.ceil(remaining/1000));
