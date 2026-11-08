@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101715">
+<title>25:00 · Focus — Still</title>
+<style>
+
+:root{color-scheme:dark;--ink:#edf2e7;--muted:#b0bdaf;--accent:#b0d6af;--paper:#19221d;--line:#425747;--tint:#25382c;--shadow:0 22px 65px #00000035}
+*{box-sizing:border-box}html{background:#101715}body{margin:0;background:#101715;background-image:radial-gradient(ellipse at 15% 0%,#1e3025 0,transparent 60%),radial-gradient(ellipse at 100% 100%,#192822 0,transparent 55%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);min-height:100svh}
+button,input{font:inherit}button{cursor:pointer;transition:background .18s,transform .18s,border-color .18s}button:active{transform:translateY(1px)}button:focus-visible,input:focus-visible{outline:3px solid #e8bc7b;outline-offset:4px}::selection{background:#597b58;color:#fff}input::selection{background:#597b58;color:#fff}
+.shell{max-width:1000px;margin:auto;padding:35px 28px 24px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}.brand{display:flex;gap:12px;align-items:center;font-size:23px;font-weight:700;letter-spacing:-1px}.brandmark{width:33px;height:33px;border-radius:50% 50% 12% 50%;background:var(--accent);display:grid;place-items:center;color:#132118;transform:rotate(-12deg);font-size:22px}.brand small{font-size:11px;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase;font-weight:500;margin-left:10px}
+.settings-toggle{border:1px solid #536e58;background:#263b2e;border-radius:24px;padding:10px 16px;color:#d9ecd3;font-size:13px;font-weight:650;display:flex;align-items:center;gap:7px}.settings-toggle:hover{background:#344f3d;border-color:#91b391}
+.intro{text-align:center;margin-bottom:24px}.eyebrow{text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-size:11px;font-weight:700}.intro h1{font-family:Georgia,serif;font-weight:400;font-size:36px;letter-spacing:-1px;margin:10px 0;color:#f1f2e6}.intro p{font-size:14px;color:var(--muted);margin:0}
+.workspace{display:grid;grid-template-columns:1fr;gap:20px;max-width:700px;margin:auto}.timer-card{background:linear-gradient(145deg,#1c2820,var(--paper) 65%);border:1px solid #3b5040;border-radius:28px;box-shadow:var(--shadow),inset 0 1px 0 #ffffff05;padding:27px 28px 23px;text-align:center}
+.mode-tabs{display:flex;background:#101a14;border:1px solid #354b3a;border-radius:15px;padding:5px;max-width:440px;margin:auto;gap:4px}.mode-tabs button{flex:1;padding:11px 6px;background:none;border:1px solid transparent;border-radius:11px;color:var(--muted);font-size:13px;white-space:nowrap}.mode-tabs button:hover{background:#24372a;color:var(--ink)}.mode-tabs button[aria-pressed=true]{background:var(--tint);border-color:#526e58;color:var(--ink);box-shadow:0 2px 6px #00000024;font-weight:650}
+.dial{width:min(320px,100%);aspect-ratio:1;position:relative;margin:25px auto 18px;display:grid;place-items:center}.dial svg{width:100%;height:100%;position:absolute;inset:0;transform:rotate(-90deg)}.track{fill:none;stroke:#354c3b;stroke-width:5}.progress{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:942.478;stroke-dashoffset:0;transition:stroke .3s;filter:drop-shadow(0 0 5px #b0d6af16)}.dial-content{position:relative}.mode-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:650}.time{font-size:76px;font-weight:450;font-variant-numeric:tabular-nums;letter-spacing:-4px;line-height:1.35;color:#f2f5e9}.timer-state{font-size:12px;color:var(--muted);height:18px}
+.controls{display:flex;align-items:center;justify-content:center;gap:14px}.icon-button{width:45px;height:45px;border:1px solid #59725e;border-radius:50%;background:#17231b;color:#c4d6c2;display:grid;place-items:center}.icon-button:hover{background:#2d4233;border-color:#90ad91}.icon-button svg{width:19px;height:19px}.primary{min-width:182px;background:var(--accent);border:1px solid transparent;border-radius:15px;color:#102018;font-weight:700;padding:15px 24px;box-shadow:0 5px 20px #00000020}.primary:hover{filter:brightness(1.09)}
+.session-row{border-top:1px solid var(--line);margin-top:28px;padding-top:20px;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted);text-align:left;gap:12px}.dots{display:flex;flex-wrap:wrap;max-width:160px;gap:7px;margin-bottom:7px}.dot{height:9px;width:9px;border-radius:50%;background:#485f4b}.dot.done{background:var(--accent)}.session-row strong{color:var(--ink);font-weight:600}.next{text-align:right;line-height:1.7}
+.sound-card{background:#17221ccc;border:1px solid #3b5040;border-radius:20px;padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;box-shadow:0 8px 30px #00000010}.sound-title{font-size:13px;font-weight:650;margin-bottom:5px;color:#e4efdf}.sound-sub{font-size:11px;color:var(--muted);line-height:1.5;max-width:300px}.volume{display:flex;align-items:center;gap:9px;font-size:11px;color:#c4d2bf}input[type=range]{accent-color:var(--accent);width:100%;min-width:50px;cursor:pointer}.test-row{display:flex;gap:10px;grid-column:1/-1}.test-row button{flex:1;border:1px solid #58705d;background:#1c2b21;border-radius:10px;color:#dcebd6;font-size:12px;padding:10px 6px}.test-row button:hover{background:#2c4132;border-color:#88a88a}
+.settings{max-width:700px;margin:0 auto 20px;background:#17221d;border:1px solid #3b5040;box-shadow:var(--shadow);border-radius:20px;padding:23px}.settings[hidden]{display:none}.settings h2{margin:0 0 5px;font-size:16px;color:#e9f0e4}.settings p{font-size:12px;color:var(--muted);margin:0 0 18px;line-height:1.5}.settings p strong{font-weight:600;color:#d2e0cb}.duration-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.duration-grid label{font-size:12px;color:#c0ceba}.duration-grid input{display:block;margin-top:7px;width:100%;padding:10px;border:1px solid #59705c;background:#0f1913;border-radius:9px;color:#edf4e7;box-shadow:inset 0 2px 5px #00000024}.duration-grid input:hover{border-color:#8ea68a}.duration-grid input:invalid{border-color:#df9c92}.timing-note{font-size:11px;color:var(--accent);margin-top:12px;line-height:1.5}.settings-bottom{display:flex;gap:14px;justify-content:space-between;align-items:center;margin-top:18px}.notification-label{font-size:12px;display:flex;align-items:center;gap:8px;color:#c8d4c2}.notification-label input{accent-color:var(--accent)}.save{border:1px solid #a6cca2;background:var(--accent);color:#102018;padding:10px 15px;border-radius:10px;font-size:12px;font-weight:650;white-space:nowrap}.save:hover{filter:brightness(1.09)}
+.alarm-panel[hidden]{display:none}.alarm-panel{position:fixed;z-index:2147483647;top:16px;left:50%;transform:translateX(-50%);width:min(540px,calc(100% - 24px));display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 20px;border-radius:18px;background:#30241e;border:2px solid #e1b181;box-shadow:0 12px 50px #00000080;color:#fff0d9}.alarm-panel strong{display:block;font-size:15px}.alarm-panel small{display:block;font-size:12px;margin-top:4px;line-height:1.5;color:#e6d3bd}.stop-alarm{border:1px solid #f0aaa1;border-radius:12px;background:#a53b41;color:#fff4f1;font-weight:700;padding:14px 18px;white-space:nowrap}.stop-alarm:hover{background:#bd4850}
+.status{font-size:12px;color:var(--muted);text-align:center;min-height:20px;line-height:1.6;margin:17px auto 0;max-width:650px}footer{text-align:center;font-size:11px;color:#a2b09b;margin:20px 0 0;letter-spacing:.3px}.keyboard-hint{margin-top:16px;color:#a8b6a0;font-size:10px}kbd{font:inherit;border:1px solid #576e58;border-radius:4px;padding:1px 4px;background:#142018;color:#cad8c2}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+body[data-mode=short],body[data-mode=long]{--accent:#a6d3df;--tint:#253b45}body[data-mode=short] .mode-tabs button[aria-pressed=true],body[data-mode=long] .mode-tabs button[aria-pressed=true]{border-color:#547681}body[data-mode=short] .track,body[data-mode=long] .track{stroke:#344c55}
+@media(min-width:900px){.shell{padding-top:36px}header{margin-bottom:25px}}@media(max-width:520px){.shell{padding:20px 15px}header{margin-bottom:29px}.brand small{display:none}.intro h1{font-size:30px}.intro p{font-size:12px}.timer-card{padding:20px 17px;border-radius:23px}.dial{width:270px;margin:20px auto 14px}.time{font-size:67px}.mode-tabs button{font-size:12px}.sound-card{padding:18px;gap:14px;grid-template-columns:1fr}.test-row{gap:7px}.duration-grid{gap:9px;grid-template-columns:repeat(2,minmax(0,1fr))}.settings{padding:18px}.settings-bottom{align-items:center}.notification-label{font-size:11px}.session-row{font-size:11px}.primary{min-width:156px}.keyboard-hint{display:none}.alarm-panel{padding:14px}.stop-alarm{padding:12px}.settings-toggle{font-size:12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-mode="focus">
+<div class="shell">
+<header><div class="brand"><span class="brandmark" aria-hidden="true">∿</span>still<span><small>A little room to focus</small></span></div><button class="settings-toggle" id="settingsToggle" aria-controls="settings" aria-expanded="true"><span aria-hidden="true">✎</span> Edit timings</button></header>
+<main>
+<section class="intro"><div class="eyebrow">One thing at a time</div><h1>Find your rhythm.</h1><p>A little focus. A little breathing room. A day well spent.</p></section>
+<form id="settings" class="settings">
+<h2>Edit your timings</h2><p>Minutes, your way. Decimals welcome: <strong>1.5 = 1 min 30 sec</strong>. Changes apply immediately when stopped or paused; a running session keeps its current duration.</p>
+<div class="duration-grid"><label for="focusMinutes">Focus<input id="focusMinutes" name="focus" type="number" min="0.1" max="180" step="any" required value="25"></label><label for="shortMinutes">Short break<input id="shortMinutes" name="short" type="number" min="0.1" max="180" step="any" required value="5"></label><label for="longMinutes">Long break<input id="longMinutes" name="long" type="number" min="0.1" max="180" step="any" required value="15"></label><label for="sessionsBeforeLong">Focus sessions before long break<input id="sessionsBeforeLong" name="sessionsBeforeLong" type="number" min="1" max="12" step="1" required value="4"></label></div><div class="timing-note" id="timingNote">Saved automatically on this device · 0.1–180 minutes</div>
+<div class="settings-bottom"><label class="notification-label"><input id="notifications" type="checkbox" checked>Desktop notifications</label><button type="submit" class="save">Apply timings</button></div>
+</form>
+<div class="workspace">
+<section class="timer-card" aria-label="Pomodoro timer">
+<div class="mode-tabs" role="group" aria-label="Session type"><button data-mode="focus" aria-pressed="true">Focus</button><button data-mode="short" aria-pressed="false">Short break</button><button data-mode="long" aria-pressed="false">Long break</button></div>
+<div class="dial"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="track" cx="160" cy="160" r="150"/><circle id="progress" class="progress" cx="160" cy="160" r="150"/></svg><div class="dial-content"><div class="mode-label" id="modeLabel">Focus time</div><div class="time" id="countdown" role="timer" aria-label="Time remaining" aria-live="off">25:00</div><div class="timer-state" id="timerState">Make space for your next good idea.</div></div></div>
+<div class="controls"><button class="icon-button" id="reset" aria-label="Reset current session" title="Reset current session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg></button><button class="primary" id="start">Start focus</button><button class="icon-button" id="skip" aria-label="Skip to next session" title="Skip to next session"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m6 5 10 7-10 7V5ZM19 5v14"/></svg></button></div>
+<div class="keyboard-hint"><kbd>Space</kbd> to start or pause</div>
+<div class="session-row"><div><div class="dots" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><span id="sessionCount"><strong>0</strong> focus sessions completed</span></div><div class="next" id="nextSession">Up next · <strong>Short break</strong><br>Long break after 4 focus sessions</div></div>
+</section>
+<section class="alarm-panel" id="alarmPanel" hidden role="status" aria-live="polite"><div><strong id="alarmHeading">Session complete</strong><small id="alarmDetail">Alarm rings for 30 seconds. Click anywhere to silence.</small></div><button class="stop-alarm" id="stopAlarm">■ Stop alarm</button></section>
+<section class="sound-card" aria-label="Alarm controls"><div><div class="sound-title">Clear chimes. Unmissable transitions.</div><div class="sound-sub">Session alarms repeat for 30 seconds. Previews are short. Click anywhere to silence.</div></div><label class="volume" for="volume"><span aria-hidden="true">♫</span><span class="sr-only">Alarm volume</span><input id="volume" type="range" min="0" max="100" value="85"><output id="volumeValue" for="volume">85%</output></label><div class="test-row"><button id="testFocus">↗ &nbsp; Preview focus alarm</button><button id="testBreak">↘ &nbsp; Preview break alarm</button></div></section>
+</div><p class="status" id="status" role="status" aria-live="polite">Your next session starts when you’re ready.</p>
+</main><footer>No rush. Just the next small step.</footer>
+</div>
+<script>
+'use strict';
+(() => {
+const $ = id => document.getElementById(id);
+const defaults = {focus:25,short:5,long:15,sessionsBeforeLong:4,volume:85,notifications:true,soundVersion:2};
+let settings = {...defaults};
+try {
+ const stored = JSON.parse(localStorage.getItem('still.settings.v1') || '{}');
+ for(const key of ['focus','short','long']) if(Number.isFinite(stored[key]) && stored[key]>=0.1 && stored[key]<=180) settings[key]=stored[key];
+ if(Number.isInteger(stored.sessionsBeforeLong) && stored.sessionsBeforeLong>=1 && stored.sessionsBeforeLong<=12)settings.sessionsBeforeLong=stored.sessionsBeforeLong;
+ if(Number.isFinite(stored.volume)) settings.volume=Math.min(100,Math.max(0,stored.volume));
+ // Upgrade the old default without overriding a personally chosen level or mute.
+ if(!stored.soundVersion && stored.volume===55)settings.volume=85;
+ if(typeof stored.notifications==='boolean') settings.notifications=stored.notifications;
+} catch (_) {}
+const names={focus:'Focus',short:'Short break',long:'Long break'};
+let mode='focus', completed=0, cycleCompleted=0, running=false, touched=false;
+let total=settings.focus*60000, remaining=total, deadline=0;
+let audio=null, masterVolume=null, notificationAsked=false;
+let alarmGeneration=0, alarmTimeout=null, alarmActive=false;
+const voices=new Set();
+function saveSettings(){try{localStorage.setItem('still.settings.v1',JSON.stringify(settings));return true;}catch(_){return false;}}
+function announce(text){$('status').textContent=text;}
+function unlockAudio(){
+ try{
+  const AudioClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioClass)return Promise.resolve(false);
+  if(!audio || audio.state==='closed'){
+   audio=new AudioClass();
+   masterVolume=audio.createGain();masterVolume.gain.value=settings.volume/100;
+   const safety=audio.createDynamicsCompressor();
+   safety.threshold.value=-3;safety.knee.value=3;safety.ratio.value=12;
+   safety.attack.value=0.005;safety.release.value=0.15;
+   masterVolume.connect(safety);safety.connect(audio.destination);
+  }
+  if(audio.state!=='running')return audio.resume().then(()=>audio.state==='running').catch(()=>false);
+  return Promise.resolve(true);
+ }catch(_){return Promise.resolve(false);}
+}
+// Unlock on the first real interaction, not when the countdown expires.
+document.addEventListener('pointerdown',unlockAudio,{passive:true});
+document.addEventListener('click',unlockAudio,{passive:true});
+document.addEventListener('keydown',unlockAudio);
+function tone(frequency,at,duration,level){
+ const osc=audio.createOscillator(), gain=audio.createGain();
+ osc.type='sine';osc.frequency.setValueAtTime(frequency,at);
+ gain.gain.setValueAtTime(0,at);
+ gain.gain.linearRampToValueAtTime(level,at+Math.min(0.035,duration/3));
+ gain.gain.exponentialRampToValueAtTime(0.0001,at+duration);
+ gain.gain.linearRampToValueAtTime(0,at+duration+0.025);
+ osc.connect(gain);gain.connect(masterVolume);
+ const voice={osc,gain};voices.add(voice);
+ osc.onended=()=>{voices.delete(voice);osc.disconnect();gain.disconnect();};
+ osc.start(at);osc.stop(at+duration+0.04);
+}
+function stopAlarm(showMessage=false){
+ alarmGeneration++;clearTimeout(alarmTimeout);alarmTimeout=null;
+ const wasActive=alarmActive;alarmActive=false;
+ $('alarmPanel').hidden=true;$('alarmPanel').dataset.state='silent';
+ if(audio){
+  const now=audio.currentTime;
+  for(const {osc,gain} of voices){
+   try{
+    // A brief release prevents a click when cutting off a sounding note.
+    if(gain.gain.cancelAndHoldAtTime)gain.gain.cancelAndHoldAtTime(now);
+    else{gain.gain.cancelScheduledValues(now);gain.gain.setValueAtTime(0,now);}
+    gain.gain.linearRampToValueAtTime(0,now+0.04);osc.stop(now+0.05);
+   }catch(_){}
+  }
+ }
+ if(showMessage&&wasActive)announce('Alarm stopped. Your next session is ready when you are.');
+}
+async function playAlarm(kind,preview=false){
+ stopAlarm();const generation=alarmGeneration;
+ if(!(await unlockAudio())){if(generation===alarmGeneration)announce('Sound is unavailable in this browser. The timer still works.');return;}
+ if(generation!==alarmGeneration)return;
+ if(settings.volume===0){announce('Alarm volume is muted. Raise the volume to hear it.');return;}
+ alarmActive=true;
+ const length=preview?(kind==='focus'?1.8:2.5):30.2;
+ const t=audio.currentTime+0.04,end=t+length,level=0.38;
+ const schedule=(f,at,duration,amplitude)=>{
+  const available=end-at-0.04;
+  if(available>0.075)tone(f,at,Math.min(duration,available),amplitude);
+ };
+ // Schedule every repeat on the audio clock up front so background throttling
+ // does not interrupt the 30-second alarm. Preview plays one pattern only.
+ const period=kind==='focus'?2.2:2.8;
+ for(let offset=0;offset<length;offset+=period){
+  if(preview&&offset>0)break;
+  if(kind==='focus'){
+   [523.25,659.25,783.99].forEach((f,i)=>{
+    schedule(f,t+offset+i*0.29,1.05,level);
+    schedule(f*2,t+offset+i*0.29,0.65,level*0.12);
+   });
+  }else{
+   [0,1.12].forEach(step=>{
+    schedule(659.25,t+offset+step,0.6,level*0.85);
+    schedule(440,t+offset+step+0.37,0.85,level);
+    schedule(880,t+offset+step+0.37,0.55,level*0.09);
+   });
+  }
+ }
+ $('alarmHeading').textContent=preview?`${names[kind==='focus'?'focus':'short']} alarm preview`:kind==='focus'?'Focus complete — time for a break':'Break complete — ready to focus';
+ $('alarmDetail').textContent=preview?'Short preview. Click anywhere to silence.':'Ringing for 30 seconds. Click anywhere to silence.';
+ $('alarmPanel').hidden=false;$('alarmPanel').dataset.state='ringing';
+ $('alarmPanel').dataset.durationSeconds=String(length);
+ alarmTimeout=setTimeout(()=>{if(generation===alarmGeneration)stopAlarm();},(length+0.06)*1000);
+}
+// Any click dismisses an active alarm. Capture runs before Start or preview
+// actions, so those controls can then perform their normal action.
+document.addEventListener('click',()=>{if(alarmActive)stopAlarm(true);},true);
+$('stopAlarm').addEventListener('click',()=>stopAlarm(true));
+function requestNotifications(){
+ if(notificationAsked || !settings.notifications || !('Notification' in window))return;
+ notificationAsked=true;
+ if(Notification.permission==='default'){
+  try{Notification.requestPermission().then(permission=>{
+   if(permission==='denied')announce('Desktop notifications are off. Your chimes and timer will still work.');
+  }).catch(()=>{});}catch(_){}
+ }
+}
+function notify(ended){
+ if(!settings.notifications || !('Notification' in window) || Notification.permission!=='granted')return;
+ try{const note=new Notification(ended==='focus'?'Focus complete. Nicely done.':'Break complete. Ready for a fresh start?',{body:ended==='focus'?`${names[mode]} is ready when you are.`:'Your next focus session is ready.',tag:'still-timer',silent:true});note.onclick=()=>{window.focus();note.close();};}catch(_){}
+}
+function nextMode(){return mode==='focus'?(cycleCompleted+1>=settings.sessionsBeforeLong?'long':'short'):'focus';}
+function render(){
+ const seconds=Math.max(0,Math.ceil(remaining/1000));
+ const text=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0');
+ $('countdown').textContent=text;document.title=`${text} · ${names[mode]} — Still`;
+ $('modeLabel').textContent=mode==='focus'?'Focus time':names[mode];
+ $('timerState').textContent=running?(mode==='focus'?'One thing. Your full attention.':'Step away. Take a slow breath.'):touched?'Paused. Take your time.':mode==='focus'?'Make space for your next good idea.':'A little rest goes a long way.';
+ $('start').textContent=running?'Pause':touched?'Resume':mode==='focus'?'Start focus':'Start break';
+ $('progress').style.strokeDashoffset=String(942.478*(1-Math.max(0,Math.min(1,remaining/total))));
+ $('sessionCount').innerHTML=`<strong>${completed}</strong> focus session${completed===1?'':'s'} completed`;
+ const dots=mode==='long'?settings.sessionsBeforeLong:cycleCompleted;
+ const dotRow=document.querySelector('.dots');dotRow.replaceChildren();
+ for(let i=0;i<settings.sessionsBeforeLong;i++){const dot=document.createElement('span');dot.className='dot'+(i<dots?' done':'');dotRow.append(dot);}
+ const next=nextMode();
+ $('nextSession').innerHTML=`Up next · <strong>${names[next]}</strong><br>Long break after ${settings.sessionsBeforeLong} focus session${settings.sessionsBeforeLong===1?'':'s'}`;
+ document.body.dataset.mode=mode;
+ document.querySelectorAll('.mode-tabs button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===mode)));
+}
+function setMode(newMode){mode=newMode;running=false;touched=false;total=settings[mode]*60000;remaining=total;deadline=0;render();}
+function complete(){
+ const ended=mode;
+ running=false;
+ let longDue=false;
+ if(ended==='focus'){completed++;cycleCompleted++;longDue=cycleCompleted>=settings.sessionsBeforeLong;if(longDue)cycleCompleted=0;}
+ setMode(ended==='focus'?(longDue?'long':'short'):'focus');
+ playAlarm(ended);notify(ended);
+ announce(ended==='focus'?`Focus complete. Well done! Your ${names[mode].toLowerCase()} is ready. Press Start when you’re ready.`:'Break complete. Your next focus session is ready.');
+}
+function tick(){if(!running)return;remaining=Math.max(0,deadline-Date.now());if(remaining<=0)complete();else render();}
+function startPause(){
+ stopAlarm();unlockAudio();
+ if(running){remaining=Math.max(0,deadline-Date.now());if(remaining<=0){complete();return;}running=false;render();announce('Timer paused.');}
+ else{requestNotifications();running=true;touched=true;deadline=Date.now()+remaining;render();announce(`${names[mode]} started. You’ve got this.`);}
+}
+$('start').addEventListener('click',startPause);
+$('reset').addEventListener('click',()=>{setMode(mode);announce('Current session reset. Your completed sessions are unchanged.');});
+$('skip').addEventListener('click',()=>{
+ // Skipped focus sessions do not count toward the completed-focus cycle.
+ const next=mode==='focus'?'short':'focus';setMode(next);announce(`Skipped. ${names[next]} is ready. Skips don’t count as completed focus sessions.`);
+});
+document.querySelectorAll('.mode-tabs button').forEach(button=>button.addEventListener('click',()=>{setMode(button.dataset.mode);announce(`${names[mode]} selected. Timer reset.`);}));
+$('settingsToggle').addEventListener('click',()=>{
+ $('settings').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'center'});
+ $('focusMinutes').focus({preventScroll:true});$('focusMinutes').select();
+});
+for(const key of ['focus','short','long'])$(key+'Minutes').value=settings[key];
+$('sessionsBeforeLong').value=settings.sessionsBeforeLong;
+$('notifications').checked=settings.notifications;
+function applyTimings(showMessage=false){
+ if(!$('settings').checkValidity())return false;
+ const updates={};for(const key of ['focus','short','long'])updates[key]=Number($(key+'Minutes').value);
+ const changedCurrent=updates[mode]!==settings[mode];
+ Object.assign(settings,updates);
+ settings.sessionsBeforeLong=Number($('sessionsBeforeLong').value);
+ settings.notifications=$('notifications').checked;
+ const saved=saveSettings();
+ if(!running&&changedCurrent)setMode(mode);else render();
+ $('timingNote').textContent=saved?(running?'Saved · New timings apply to the next session.':'Saved · Timings applied immediately.'):"Applied for now · Browser storage is unavailable.";
+ if(showMessage)announce(saved?(running?'Timings saved. Your running session is unchanged.':'Timings saved and applied. Ready when you are.'):'Timings applied for now; this browser cannot save preferences.');
+ return true;
+}
+$('settings').addEventListener('submit',event=>{event.preventDefault();if($('settings').reportValidity())applyTimings(true);});
+for(const field of $('settings').querySelectorAll('input')){
+ field.addEventListener('input',()=>applyTimings());
+ field.addEventListener('change',()=>applyTimings(true));
+}
+$('volume').value=settings.volume;$('volumeValue').textContent=settings.volume+'%';
+$('volume').addEventListener('input',()=>{
+ settings.volume=Number($('volume').value);$('volumeValue').textContent=settings.volume+'%';
+ if(masterVolume&&audio)masterVolume.gain.setTargetAtTime(settings.volume/100,audio.currentTime,0.025);
+ saveSettings();
+});
+$('testFocus').addEventListener('click',()=>{playAlarm('focus',true);announce(settings.volume===0?'Volume is muted. Raise it to hear the alarm.':'Focus preview: a louder, warm rising three-note chime.');});
+$('testBreak').addEventListener('click',()=>{playAlarm('break',true);announce(settings.volume===0?'Volume is muted. Raise it to hear the alarm.':'Break preview: a louder descending ding-dong, twice.');});
+saveSettings();
+document.addEventListener('keydown',event=>{if(event.code==='Space'&&!event.repeat&&!event.altKey&&!event.ctrlKey&&!event.metaKey&&!['INPUT','BUTTON','TEXTAREA','SELECT'].includes(event.target.tagName)&&!event.target.isContentEditable){event.preventDefault();startPause();}});
+document.addEventListener('visibilitychange',tick);window.addEventListener('pageshow',tick);window.addEventListener('focus',tick);
+setInterval(tick,200);render();
+})();
+</script>
+</body>
+</html>
