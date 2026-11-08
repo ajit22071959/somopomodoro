@@ -182,7 +182,7 @@ async function requestNotifications(){
  notifStatus();
 }
 let swReg=null;
-if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.register('sw.js').then(r=>{swReg=r;}).catch(err=>console.warn('Service worker registration failed',err));}
+if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.register('sw.js?v=4',{updateViaCache:'none'}).then(r=>{try{r.update();}catch(_){}return r;}).then(r=>{swReg=r;}).catch(err=>console.warn('Service worker registration failed',err));}
 async function showNote(title,body,actions){
  const opts={body,tag:'still-timer-'+Date.now(),requireInteraction:true,data:{url:location.href}};
  if(actions)opts.actions=actions;
@@ -200,7 +200,15 @@ function notify(ended){
  const startLabel=mode==='focus'?'Start Focus':'Start Break';
  showNote(ended==='focus'?'Focus complete. Nicely done.':'Break complete. Ready for a fresh start?',ended==='focus'?`${names[mode]} is ready when you are.`:'Your next focus session is ready.',[{action:'stop',title:'Stop alarm'},{action:'start',title:startLabel}]);
 }
-if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('message',event=>{
+let lastActionId='';
+function handleNotifAction(data){
+ const action=data&&data.stillAction;if(!action)return;
+ if(data.id){if(data.id===lastActionId)return;lastActionId=data.id;}
+ if(action==='stop'||action==='open'){stopAlarm(true);}
+ else if(action==='start'){stopAlarm(true);if(!running)startPause();}
+}
+if('BroadcastChannel' in window){try{new BroadcastChannel('still-timer').onmessage=e=>handleNotifAction(e.data);}catch(_){}}
+if('serviceWorker' in navigator){navigator.serviceWorker.addEventListener('message',event=>{handleNotifAction(event.data);return;
  const action=event.data&&event.data.stillAction;if(!action)return;
  if(action==='stop'||action==='open'){stopAlarm(true);}
  else if(action==='start'){stopAlarm(true);if(!running)startPause();}
