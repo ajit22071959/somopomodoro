@@ -61,6 +61,7 @@ for(const [name,ua,hints,capacity,dual] of cases){
     const {w}=app,$=id=>w.document.getElementById(id);
     assert.equal($('clickStartsOption').hidden,dual||!notifications);
     assert.equal($('clickStarts').checked,clickStarts);
+    assert.equal($('stopAlarm').hidden,!dual&&notifications&&clickStarts);
     $('notifications').checked=!notifications;$('notifications').dispatchEvent(new w.Event('change'));
     assert.equal($('clickStartsOption').hidden,dual||notifications);
     $('notifications').checked=notifications;$('notifications').dispatchEvent(new w.Event('change'));
@@ -94,12 +95,22 @@ for(const [name,ua,hints,capacity,dual] of cases){
   });
  }
 }
-test('on-page stop remains available and never starts the next session',async()=>{
+test('fallback on-page Stop visibility updates during ringing; page clicks still silence',async()=>{
  const app=setup(chrome+' OPR/124',{},2,{notifications:true,clickStarts:true});
  try{app.w.__test.complete();await flush();
   assert.equal(app.w.__test.state().alarmActive,true);
   assert.equal(app.w.document.getElementById('alarmPanel').hidden,false);
-  app.w.document.getElementById('stopAlarm').click();
+  const w=app.w,$=id=>w.document.getElementById(id);
+  assert.equal($('stopAlarm').hidden,true);
+  $('clickStarts').checked=false;$('clickStarts').dispatchEvent(new w.Event('change'));
+  assert.equal($('stopAlarm').hidden,false);
+  $('clickStarts').checked=true;$('clickStarts').dispatchEvent(new w.Event('change'));
+  assert.equal($('stopAlarm').hidden,true);
+  $('notifications').checked=false;$('notifications').dispatchEvent(new w.Event('change'));
+  assert.equal($('stopAlarm').hidden,false);
+  $('notifications').checked=true;$('notifications').dispatchEvent(new w.Event('change'));
+  assert.equal($('stopAlarm').hidden,true);
+  w.document.body.click();
   assert.equal(app.w.__test.state().alarmActive,false);
   assert.equal(app.w.__test.state().running,false);
  }finally{app.close();}

@@ -11,7 +11,9 @@ Static timer hosted at https://ajit22071959.github.io/somopomodoro/.
   the click-to-start preference appears only while desktop notifications are on.
   Off: request only **Stop alarm**, and body clicks stop. On: request only
   **Start Focus/Break**, and body clicks start the next session.
-- The on-page **Stop alarm** remains available while ringing in either mode.
+- In fallback mode with notifications and click-to-start both enabled, the on-page
+  **Stop alarm** button is hidden too. Clicking anywhere on the page still silences
+  the alarm. Otherwise the on-page Stop button remains available while ringing.
   Test notifications only confirm delivery and never start a session.
 
 Detection is a conservative UA/client-hint heuristic, not proof of a browser bug.
