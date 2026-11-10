@@ -4,13 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101715">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>25:00 · Focus — somopomodoro</title>
 <style>
 
 :root{color-scheme:dark;--ink:#edf2e7;--muted:#b0bdaf;--accent:#b0d6af;--paper:#19221d;--line:#425747;--tint:#25382c;--shadow:0 22px 65px #00000035}
 *{box-sizing:border-box}html{background:#101715}body{margin:0;background:#101715;background-image:radial-gradient(ellipse at 15% 0%,#1e3025 0,transparent 60%),radial-gradient(ellipse at 100% 100%,#192822 0,transparent 55%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);min-height:100svh}
 button,input{font:inherit}button{cursor:pointer;transition:background .18s,transform .18s,border-color .18s}button:active{transform:translateY(1px)}button:focus-visible,input:focus-visible{outline:3px solid #e8bc7b;outline-offset:4px}::selection{background:#597b58;color:#fff}input::selection{background:#597b58;color:#fff}
-.shell{max-width:1000px;margin:auto;padding:35px 28px 24px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}.brand{display:flex;gap:12px;align-items:center;font-size:23px;font-weight:700;letter-spacing:-1px}.brandmark{width:33px;height:33px;display:grid;place-items:center}.brand small{font-size:11px;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase;font-weight:500;margin-left:10px}
+.shell{max-width:1000px;margin:auto;padding:35px 28px 24px}header{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}.brand{display:flex;gap:12px;align-items:center;font-size:23px;font-weight:700;letter-spacing:-1px}.brandmark{width:36px;height:36px;display:block;border-radius:8px;object-fit:contain;flex-shrink:0}.brand small{font-size:11px;color:var(--muted);letter-spacing:1.6px;text-transform:uppercase;font-weight:500;margin-left:10px}
 .settings-toggle{border:1px solid #536e58;background:#263b2e;border-radius:24px;padding:10px 16px;color:#d9ecd3;font-size:13px;font-weight:650;display:flex;align-items:center;gap:7px}.settings-toggle:hover{background:#344f3d;border-color:#91b391}
 .intro{text-align:center;margin-bottom:24px}.eyebrow{text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-size:11px;font-weight:700}.intro h1{font-family:Georgia,serif;font-weight:400;font-size:36px;letter-spacing:-1px;margin:10px 0;color:#f1f2e6}.intro p{font-size:14px;color:var(--muted);margin:0}
 .workspace{display:grid;grid-template-columns:1fr;gap:20px;max-width:700px;margin:auto}.timer-card{background:linear-gradient(145deg,#1c2820,var(--paper) 65%);border:1px solid #3b5040;border-radius:28px;box-shadow:var(--shadow),inset 0 1px 0 #ffffff05;padding:27px 28px 23px;text-align:center}
@@ -30,7 +33,7 @@ body[data-mode=short],body[data-mode=long]{--accent:#a6d3df;--tint:#253b45}body[
 </head>
 <body data-mode="focus">
 <div class="shell">
-<header><div class="brand"><span class="brandmark" aria-hidden="true"><svg viewBox="0 0 32 32" width="30" height="30"><path d="M16 9c-7 0-12 4.5-12 10.5S9 29 16 29s12-3.5 12-9.5S23 9 16 9Z" fill="#e5533d"/><path d="M16 10c-2-3-5-3.5-7-2.5 2.5.5 4 1.5 5 3-2 0-4 .8-5 2 2.5-.5 4.5 0 6 .5 1.5-.5 3.5-1 6-.5-1-1.2-3-2-5-2 1-1.5 2.5-2.5 5-3-2-1-5-.5-7 2.5Z" fill="#7bd88f"/><path d="M16 10V5.5" stroke="#7bd88f" stroke-width="1.8" stroke-linecap="round"/></svg></span>somopomodoro<span><small>A little room to focus</small></span></div><button class="settings-toggle" id="settingsToggle" aria-controls="settings" aria-expanded="true"><span aria-hidden="true">✎</span> Edit timings</button></header>
+<header><div class="brand"><img class="brandmark" src="logo.png" width="36" height="36" alt="" aria-hidden="true">somopomodoro<span><small>A little room to focus</small></span></div><button class="settings-toggle" id="settingsToggle" aria-controls="settings" aria-expanded="true"><span aria-hidden="true">✎</span> Edit timings</button></header>
 <main>
 <section class="intro"><div class="eyebrow">One thing at a time</div><h1>Find your rhythm.</h1><p>A little focus. A little breathing room. A day well spent.</p></section>
 <form id="settings" class="settings">
@@ -210,7 +213,7 @@ async function requestNotifications(){
 let swReg=null;
 if('serviceWorker' in navigator&&window.isSecureContext){navigator.serviceWorker.register('sw.js?v=5',{updateViaCache:'none'}).then(r=>{try{r.update();}catch(_){}return r;}).then(r=>{swReg=r;}).catch(err=>console.warn('Service worker registration failed',err));}
 async function showNote(title,body,actions,data={}){
- const opts={body,tag:'still-timer-'+Date.now(),requireInteraction:true,data:{url:location.href,pageId:notificationPageId,bodyAction:'stop',...data}};
+ const opts={body,tag:'still-timer-'+Date.now(),icon:new URL('favicon-192.png',location.href).href,requireInteraction:true,data:{url:location.href,pageId:notificationPageId,bodyAction:'stop',...data}};
  if(actions)opts.actions=actions;
  try{
   const reg=swReg||(('serviceWorker' in navigator)&&await Promise.race([navigator.serviceWorker.ready,new Promise(r=>setTimeout(()=>r(null),1500))]));
